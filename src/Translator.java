@@ -79,10 +79,10 @@ public class Translator
 		}
 	}
 	
-	public String[] translateText(String text)
+	public String translateText(String text)
 	{
 		String parsedText[] = text.split(" ");
-		
+		String str = "";
 		for(int i = 0; i < parsedText.length; i++)
 		{
 			for(int f = 0; f < nativeLanguageList.size(); f++)
@@ -93,8 +93,9 @@ public class Translator
 					break;
 				}	
 			}
+			str += parsedText[i] + " ";
 		}
-		return parsedText;
+		return str;
 	}	
 	
 	/*public String isUpperCase(String s)

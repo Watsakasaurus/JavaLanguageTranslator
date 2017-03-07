@@ -91,12 +91,9 @@ public class Menu
 				case 3:
 					clearTerminal();
 					System.out.println("Enter text to translate");
-					String[] t = translator.translateText(Genio.getString());
+					String t = translator.translateText(Genio.getString());
 					clearTerminal();
-					for(int k = 0; k < t.length; k++)
-					{
-						System.out.print(t[k] + " ");
-					}
+					System.out.print(t);
 					break;
 					
 			}

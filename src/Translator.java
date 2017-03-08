@@ -14,27 +14,65 @@ public class Translator
 	private ArrayList<String> translationLanguageList;
 	private String nativeLanguage;
 	private String translationLanguage;
-	private boolean[] languageChanged;
 	private FileReader fileReader;
 	private BufferedReader bufferedReader;
-	private String text;
 
 	public Translator()
 	{
 		nativeLanguageList = new ArrayList<String>();	
 		translationLanguageList = new ArrayList<String>();	
-		languageChanged = new boolean[2];
-		text = "";
+		//default languages are English to French
+		setNativeLanguage("en.txt");
+		setTranslationLanguage("fr.txt");
 	}
+
+	public String getTranslationLanguage()
+	{
+		if(translationLanguage.equals("en.txt"))
+			return "english";
+		else if(translationLanguage.equals("fr.txt"))
+			return "french";
+		else if(translationLanguage.equals("es.txt"))
+			return "spanish";
+		else if(translationLanguage.equals("it.txt"))
+			return "italian";
+		else if(translationLanguage.equals("ru.txt"))
+			return "russian";
+		else if(translationLanguage.equals("gd.txt"))
+			return "galic";
+		return "";
+	}
+	
+	public String getNativeLanguage()
+	{
+		if(nativeLanguage.equals("en.txt"))
+			return "english";
+		else if(nativeLanguage.equals("fr.txt"))
+			return "french";
+		else if(nativeLanguage.equals("es.txt"))
+			return "spanish";
+		else if(nativeLanguage.equals("it.txt"))
+			return "italian";
+		else if(nativeLanguage.equals("ru.txt"))
+			return "russian";
+		else if(nativeLanguage.equals("gd.txt"))
+			return "galic";
+		return "";
+	}
+
 
 	public void setTranslationLanguage(String translationLanguage)
 	{
+		if(this.translationLanguage==translationLanguage)
+			return;
 		this.translationLanguage = translationLanguage;	
 		loadLanguage(false);
 	}
 	
 	public void setNativeLanguage(String nativeLanguage)
 	{
+		if(this.nativeLanguage==nativeLanguage)
+			return;
 		this.nativeLanguage = nativeLanguage;	
 		loadLanguage(true);
 	}
@@ -45,6 +83,7 @@ public class Translator
 		{
 			try
 			{
+				nativeLanguageList.clear();
 				fileReader = new FileReader(nativeLanguage);
 				bufferedReader = new BufferedReader(fileReader);
 				String nextLine = bufferedReader.readLine();
@@ -53,6 +92,7 @@ public class Translator
 					nativeLanguageList.add(nextLine);
 					nextLine = bufferedReader.readLine();
 				}
+				bufferedReader.close();
 			}
 			catch(IOException e)
 			{
@@ -63,6 +103,7 @@ public class Translator
 		{
 			try
 			{
+				translationLanguageList.clear();
 				fileReader = new FileReader(translationLanguage);
 				bufferedReader = new BufferedReader(fileReader);
 				String nextLine = bufferedReader.readLine();
@@ -87,7 +128,7 @@ public class Translator
 		{
 			for(int f = 0; f < nativeLanguageList.size(); f++)
 			{
-				if(parsedText[i].equals(nativeLanguageList.get(f)))
+				if(punctuationSorter(parsedText[i]).equals(nativeLanguageList.get(f)))
 				{
 					parsedText[i] = translationLanguageList.get(f);					
 					break;
@@ -97,14 +138,17 @@ public class Translator
 		}
 		return str;
 	}	
-	
-	/*public String isUpperCase(String s)
+
+	public String punctuationSorter(String s)
 	{
-        if (Character.isUpperCase(s.charAt(0)))
-        {
-            return ;
-        }
+		String p = "";
+		for(int f = 0; f < s.length(); f++)
+		{
+        		if (Character.isUpperCase(s.charAt(f)))
+				p += Character.toLowerCase(s.charAt(f));
+			else
+				p += s.charAt(f);
+		}
+		return p;
     }
-    return true;
-	}*/
 }

@@ -17,14 +17,28 @@ public class Menu
 	private void displayMenu()
 	{
 		System.out.println("0 :: quit");
-		System.out.println("1 :: set native language");
-		System.out.println("2 :: set translation language");
+		System.out.println("1 :: set native language :: currently " + translator.getNativeLanguage());
+		System.out.println("2 :: set translation language :: currently " + translator.getTranslationLanguage());
 		System.out.println("3 :: translate text");
 	}
 
 	private void clearTerminal()
 	{
 	    System.out.print("\033[H\033[2J");
+	}
+
+	private int languageSelectionMenu()
+	{
+		clearTerminal();
+		System.out.println();
+		System.out.println("0 :: English");
+		System.out.println("1 :: Russian");
+		System.out.println("2 :: French");
+		System.out.println("3 :: Galic");
+		System.out.println("4 :: Italian");
+		System.out.println("5 :: Spanish");
+		System.out.println("Enter the language");
+		return Genio.getInteger();
 	}
 
 	private void selectOption()
@@ -41,15 +55,7 @@ public class Menu
 					quit = !quit;
 					break;
 				case 1:
-					clearTerminal();
-					System.out.println("0 :: English");
-					System.out.println("1 :: Russian");
-					System.out.println("2 :: French");
-					System.out.println("3 :: Galic");
-					System.out.println("4 :: Italian");
-					System.out.println("5 :: Spanish");
-					System.out.println("Enter the language");
-					int a = Genio.getInteger();
+					int a = languageSelectionMenu();
 					if(a==0)
 						translator.setNativeLanguage("en.txt");
 					if(a==1)
@@ -65,15 +71,7 @@ public class Menu
 					clearTerminal();
 					break;
 					case 2:
-					clearTerminal();
-					System.out.println("0 :: English");
-					System.out.println("1 :: Russian");
-					System.out.println("2 :: French");
-					System.out.println("3 :: Galic");
-					System.out.println("4 :: Italian");
-					System.out.println("5 :: Spanish");
-					System.out.println("Enter the language");
-					int b = Genio.getInteger();
+					int b = languageSelectionMenu();
 					if(b==0)
 						translator.setTranslationLanguage("en.txt");
 					if(b==1)

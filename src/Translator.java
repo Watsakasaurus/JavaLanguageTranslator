@@ -5,22 +5,34 @@
 * Translator class :: 
 * Handles translation by pulling wordlists into ArrayLists
 */
-import java.util.*;
-import java.io.*;
+
+//import the neccesary libraries
+import java.util.ArrayList;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 public class Translator
 {
+	//initalises standard library array lists
 	private ArrayList<String> nativeLanguageList;
 	private ArrayList<String> translationLanguageList;
+
+	//initalises fields
 	private String nativeLanguage;
 	private String translationLanguage;
+
+	//needed for loading in wordlists
 	private FileReader fileReader;
 	private BufferedReader bufferedReader;
 
 	public Translator()
 	{
+		//creates 2 new arraylists, 1 for the native language,
+		//one for the translational
 		nativeLanguageList = new ArrayList<String>();	
 		translationLanguageList = new ArrayList<String>();	
+		
 		//default languages are English to French
 		setNativeLanguage("en.txt");
 		setTranslationLanguage("fr.txt");
@@ -60,7 +72,7 @@ public class Translator
 		return "";
 	}
 
-
+	//sets the transational language to a new language
 	public void setTranslationLanguage(String translationLanguage)
 	{
 		if(this.translationLanguage==translationLanguage)
@@ -69,6 +81,7 @@ public class Translator
 		loadLanguage(false);
 	}
 	
+	//sets the native language to a new language
 	public void setNativeLanguage(String nativeLanguage)
 	{
 		if(this.nativeLanguage==nativeLanguage)
@@ -77,8 +90,10 @@ public class Translator
 		loadLanguage(true);
 	}
 
+	//loads language
 	public void loadLanguage(boolean x)
 	{
+		//if x is true load the new native language into the cleared ArrayList
 		if(x)
 		{
 			try
@@ -99,6 +114,7 @@ public class Translator
 				System.out.println(e);	
 			}
 		}
+		//if x is false load the new translation language into the cleared ArrayList
 		else
 		{
 			try
@@ -120,6 +136,7 @@ public class Translator
 		}
 	}
 	
+	//takes the inputted text and returns the translation
 	public String translateText(String text)
 	{
 		String parsedText[] = text.split(" ");
@@ -139,6 +156,7 @@ public class Translator
 		return str;
 	}	
 
+	//goes through string s, makes every uppercase character lowercase
 	public String punctuationSorter(String s)
 	{
 		String p = "";

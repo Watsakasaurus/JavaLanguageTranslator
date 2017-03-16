@@ -20,6 +20,7 @@ public class Menu
 		System.out.println("1 :: set native language :: currently " + translator.getNativeLanguage());
 		System.out.println("2 :: set translation language :: currently " + translator.getTranslationLanguage());
 		System.out.println("3 :: translate text");
+		System.out.println("5 :: add new words to dictionary");
 	}
 
 	private void clearTerminal()
@@ -93,6 +94,11 @@ public class Menu
 					clearTerminal();
 					System.out.print(t);
 					break;
+				case 5:
+					clearTerminal();
+					System.out.println("Enter the word in " + translator.getNativeLanguage() + " that you wish to translate into " + translator.getTranslationLanguage());
+					translator.addToDictionary(Genio.getString());
+					break;
 					
 			}
 		}
@@ -100,6 +106,7 @@ public class Menu
 
 	public static void main(String[] args)
 	{
-		new Menu();	
+		new Menu();
+
 	}
 }

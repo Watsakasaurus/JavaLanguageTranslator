@@ -7,10 +7,17 @@
 */
 
 //import the neccesary libraries
+
+
+
+
 import java.util.ArrayList;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
 
 public class Translator
 {
@@ -149,7 +156,9 @@ public class Translator
 				{
 					parsedText[i] = translationLanguageList.get(f);					
 					break;
-				}	
+				}
+
+
 			}
 			str += parsedText[i] + " ";
 		}
@@ -169,4 +178,73 @@ public class Translator
 		}
 		return p;
     }
+
+    public void addToDictionary(String unknown){
+
+		String translated;
+		char answer;
+
+		BufferedWriter bw = null;
+		FileWriter fw = null;
+
+		BufferedWriter bw1 = null;
+		FileWriter fw1 = null;
+
+		System.out.println("Please enter the translation of " + unknown + " in " + this.getTranslationLanguage());
+		translated = Genio.getString();
+
+		System.out.println("Do you wish to add " + translated + " to the " + this.getTranslationLanguage() + " dictionary: y/n");
+		answer = Genio.getCharacter();
+
+		if(answer == 'y' || answer == 'Y'){
+
+			try{
+
+				fw = new FileWriter("src/" + nativeLanguage, true);
+				bw = new BufferedWriter(fw);
+
+				fw1 = new FileWriter("src/"+ translationLanguage, true);
+				bw1 = new BufferedWriter(fw1);
+				bw.write(unknown);
+				bw1.write(translated);
+
+
+			}catch(IOException e){
+
+				System.out.println("There was an error writing to the file.");
+
+			}finally{
+
+				try{
+					if (bw != null){
+						bw.close();
+					}
+					if (fw != null) {
+						fw.close();
+					}
+					if (bw1 != null){
+						bw1.close();
+					}
+					if (fw1 != null) {
+						fw1.close();
+					}
+				} catch(IOException e) {
+
+					System.out.println("There was an error closing the files");
+
+				}
+
+
+
+
+			}
+
+
+		}
+
+
+
+	}
+
+
 }

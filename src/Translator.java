@@ -106,7 +106,7 @@ public class Translator
 			try
 			{
 				nativeLanguageList.clear();
-				fileReader = new FileReader(nativeLanguage);
+				fileReader = new FileReader("src/" + nativeLanguage);
 				bufferedReader = new BufferedReader(fileReader);
 				String nextLine = bufferedReader.readLine();
 				while(nextLine!=null)
@@ -127,7 +127,7 @@ public class Translator
 			try
 			{
 				translationLanguageList.clear();
-				fileReader = new FileReader(translationLanguage);
+				fileReader = new FileReader("src/" + translationLanguage);
 				bufferedReader = new BufferedReader(fileReader);
 				String nextLine = bufferedReader.readLine();
 				while(nextLine!=null)
@@ -178,7 +178,7 @@ public class Translator
 		}
 		return p;
     }
-
+	//adds unknown word and users entry to corresponding dictionaries
     public void addToDictionary(String unknown){
 
 		String translated;

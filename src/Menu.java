@@ -5,17 +5,16 @@
 * Menu class :: 
 * Provides user interface, propbably temporarily until a GUI is made
 */
-public class Menu
-{
+public class Menu {
 	private Translator translator;
-	public Menu()
-	{
+
+	public Menu() {
 		translator = new Translator();
+
 		selectOption();
 	}
 
-	private void displayMenu()
-	{
+	private void displayMenu() {
 		System.out.println("0 :: quit");
 		System.out.println("1 :: set native language :: currently " + translator.getNativeLanguage());
 		System.out.println("2 :: set translation language :: currently " + translator.getTranslationLanguage());
@@ -23,13 +22,11 @@ public class Menu
 		System.out.println("5 :: add new words to dictionary");
 	}
 
-	private void clearTerminal()
-	{
-	    System.out.print("\033[H\033[2J");
+	private void clearTerminal() {
+		System.out.print("\033[H\033[2J");
 	}
 
-	private int languageSelectionMenu()
-	{
+	private int languageSelectionMenu() {
 		clearTerminal();
 		System.out.println();
 		System.out.println("0 :: English");
@@ -42,48 +39,45 @@ public class Menu
 		return Genio.getInteger();
 	}
 
-	private void selectOption()
-	{
+	private void selectOption() {
 		clearTerminal();
 		boolean quit = false;
-		while(!quit)
-		{
+		while (!quit) {
 			System.out.println();
 			displayMenu();
-			switch(Genio.getInteger())
-			{
+			switch (Genio.getInteger()) {
 				case 0:
 					quit = !quit;
 					break;
 				case 1:
 					int a = languageSelectionMenu();
-					if(a==0)
+					if (a == 0)
 						translator.setNativeLanguage("en.txt");
-					if(a==1)
+					if (a == 1)
 						translator.setNativeLanguage("ru.txt");
-					if(a==2)
+					if (a == 2)
 						translator.setNativeLanguage("fr.txt");
-					if(a==3)
+					if (a == 3)
 						translator.setNativeLanguage("gd.txt");
-					if(a==4)
+					if (a == 4)
 						translator.setNativeLanguage("it.txt");
-					if(a==5)
+					if (a == 5)
 						translator.setNativeLanguage("es.txt");
 					clearTerminal();
 					break;
-					case 2:
+				case 2:
 					int b = languageSelectionMenu();
-					if(b==0)
+					if (b == 0)
 						translator.setTranslationLanguage("en.txt");
-					if(b==1)
+					if (b == 1)
 						translator.setTranslationLanguage("ru.txt");
-					if(b==2)
+					if (b == 2)
 						translator.setTranslationLanguage("fr.txt");
-					if(b==3)
+					if (b == 3)
 						translator.setTranslationLanguage("gd.txt");
-					if(b==4)
+					if (b == 4)
 						translator.setTranslationLanguage("it.txt");
-					if(b==5)
+					if (b == 5)
 						translator.setTranslationLanguage("es.txt");
 					clearTerminal();
 					break;
@@ -99,14 +93,26 @@ public class Menu
 					System.out.println("Enter the word in " + translator.getNativeLanguage() + " that you wish to translate into " + translator.getTranslationLanguage());
 					translator.addToDictionary(Genio.getString());
 					break;
-					
+
 			}
 		}
 	}
 
-	public static void main(String[] args)
-	{
-		new Menu();
+	public static void main(String[] args) {
+		voce.SpeechInterface.init("src/voce-0.9.1/voce-0.9.1/lib", true, true,
+				"src/voce-0.9.1/voce-0.9.1/lib/gram", "digits");
+		//voce.SpeechInterface.synthesize("Somebody once told me the world is gonna roll me I ain't the sharpest tool in the shed She was looking kind of dumb with her finger and her thumb in the shape of an L on her forehead Well the years start coming and they don't stop coming and they don't stop coming and they don't stop coming and they don't stop coming");
+
+		while(voce.SpeechInterface.getRecognizerQueueSize() > 0){
+
+			String s = voce.SpeechInterface.popRecognizedString();
+			System.out.println("You said: " + s);
+		}
+
+		//new Menu();
+
 
 	}
+
+
 }

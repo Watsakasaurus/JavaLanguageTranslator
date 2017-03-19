@@ -256,8 +256,8 @@ public class Translator
 		InputStream stream;
 
 
-		//JavaSoundRecorder sound = new JavaSoundRecorder();
-		//sound.recordWav();
+		JavaSoundRecorder sound = new JavaSoundRecorder();
+		sound.recordWav();
 
 
 		Configuration configuration = new Configuration();
@@ -270,9 +270,9 @@ public class Translator
 
 		try {
 			recognizer = new StreamSpeechRecognizer(configuration);
-			stream = new FileInputStream(new File("tst.wav"));
+			stream = new FileInputStream(new File("tran.wav"));
 		}catch (Exception e){
-			System.out.print("Unable to Load Speech recognition :: Check you have a microphone connected");
+			System.out.print("Unable to Load Speech recognition");
 			return fullTxt;
 		}
 
@@ -284,12 +284,8 @@ public class Translator
 			fullTxt += " " + result.getHypothesis();
 		}
 
-
 		recognizer.stopRecognition();
-
 		System.out.print(fullTxt);
-
-
 		return fullTxt;
 
 	}

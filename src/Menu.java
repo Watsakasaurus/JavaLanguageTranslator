@@ -1,6 +1,6 @@
 /**
 * AC12001 Translator Program
-* @author Evan Lott   160005234   07/03/16 
+* @author Evan Lott Joe Riemersma  160005234   07/03/16
 * @version v1.0
 * Menu class :: 
 * Provides user interface, propbably temporarily until a GUI is made
@@ -20,6 +20,7 @@ public class Menu {
 		System.out.println("2 :: set translation language :: currently " + translator.getTranslationLanguage());
 		System.out.println("3 :: translate text");
 		System.out.println("5 :: add new words to dictionary");
+		System.out.println("6 :: Speech to Text");
 	}
 
 	private void clearTerminal() {
@@ -93,23 +94,20 @@ public class Menu {
 					System.out.println("Enter the word in " + translator.getNativeLanguage() + " that you wish to translate into " + translator.getTranslationLanguage());
 					translator.addToDictionary(Genio.getString());
 					break;
+				case 6:
+					clearTerminal();
+					String tr = translator.translateText(translator.speechToText());
+					System.out.println(tr);
+					break;
 
 			}
 		}
 	}
 
 	public static void main(String[] args) {
-		voce.SpeechInterface.init("src/voce-0.9.1/voce-0.9.1/lib", true, true,
-				"src/voce-0.9.1/voce-0.9.1/lib/gram", "digits");
-		//voce.SpeechInterface.synthesize("Somebody once told me the world is gonna roll me I ain't the sharpest tool in the shed She was looking kind of dumb with her finger and her thumb in the shape of an L on her forehead Well the years start coming and they don't stop coming and they don't stop coming and they don't stop coming and they don't stop coming");
 
-		while(voce.SpeechInterface.getRecognizerQueueSize() > 0){
 
-			String s = voce.SpeechInterface.popRecognizedString();
-			System.out.println("You said: " + s);
-		}
-
-		//new Menu();
+		new Menu();
 
 
 	}

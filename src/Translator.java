@@ -1,6 +1,6 @@
 /**
 * AC12001 Translator Program
-* @author Evan Lott   160005234   07/03/16 
+* @author Evan Lott Joe Riemersma  160005234   07/03/16
 * @version v1.0
 * Translator class :: 
 * Handles translation by pulling wordlists into ArrayLists
@@ -11,12 +11,13 @@
 
 
 
+import java.io.*;
 import java.util.ArrayList;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+
+import edu.cmu.sphinx.api.Configuration;
+import edu.cmu.sphinx.api.SpeechResult;
+import edu.cmu.sphinx.api.StreamSpeechRecognizer;
+
 
 
 public class Translator
@@ -243,6 +244,53 @@ public class Translator
 		}
 
 
+
+	}
+
+	//Creates .wav file, then converts that to text
+	public String speechToText(){
+
+		String fullTxt = "";
+		SpeechResult result;
+		StreamSpeechRecognizer recognizer;
+		InputStream stream;
+
+
+		//JavaSoundRecorder sound = new JavaSoundRecorder();
+		//sound.recordWav();
+
+
+		Configuration configuration = new Configuration();
+
+		configuration.setAcousticModelPath("src/en-us");
+		configuration.setDictionaryPath("src/cmudict-en-us.dict");
+		configuration.setLanguageModelPath("src/en-us.lm.bin");
+
+
+
+		try {
+			recognizer = new StreamSpeechRecognizer(configuration);
+			stream = new FileInputStream(new File("tst.wav"));
+		}catch (Exception e){
+			System.out.print("Unable to Load Speech recognition :: Check you have a microphone connected");
+			return fullTxt;
+		}
+
+
+		recognizer.startRecognition(stream);
+
+		while((result = recognizer.getResult()) != null){
+			System.out.format("Hypothesis: %s\n", result.getHypothesis());
+			fullTxt += " " + result.getHypothesis();
+		}
+
+
+		recognizer.stopRecognition();
+
+		System.out.print(fullTxt);
+
+
+		return fullTxt;
 
 	}
 

@@ -10,7 +10,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/sphinx4-core-5prealpha-20160628.232526-10.jar!/" />
+          <root url="jar://$MODULE_DIR$/resources/sphinx4-core-5prealpha-20160628.232526-10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -19,7 +19,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/sphinx4-samples-5prealpha-20160628.232549-9.jar!/" />
+          <root url="jar://$MODULE_DIR$/resources/sphinx4-samples-5prealpha-20160628.232549-9.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -28,11 +28,74 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/sphinx4-data-5prealpha-20160628.232535-10.jar!/" />
+          <root url="jar://$MODULE_DIR$/resources/sphinx4-data-5prealpha-20160628.232535-10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-        <jarDirectory url="jar://$MODULE_DIR$/src/sphinx4-data-5prealpha-20160628.232535-10.jar!/" recursive="false" />
+        <jarDirectory url="jar://$MODULE_DIR$/resources/sphinx4-data-5prealpha-20160628.232535-10.jar!/" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/resources/voce-0.9.1/lib/cmu_us_kal.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/resources/voce-0.9.1/lib/en_us.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/resources/voce-0.9.1/lib/freetts.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/resources/voce-0.9.1/lib/jsapi.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/resources/voce-0.9.1/lib/sphinx4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/resources/voce-0.9.1/lib/voce.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/resources/voce-0.9.1/lib/WSJ_8gau_13dCep_16k_40mel_130Hz_6800Hz.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
       </library>
     </orderEntry>
   </component>

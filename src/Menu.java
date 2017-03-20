@@ -1,3 +1,9 @@
+import edu.cmu.sphinx.api.Configuration;
+import edu.cmu.sphinx.api.SpeechResult;
+import edu.cmu.sphinx.api.StreamSpeechRecognizer;
+import java.io.InputStream;
+import java.io.FileInputStream;
+
 /**
 * AC12001 Translator Program
 * @author Evan Lott Joe Riemersma  160005234   07/03/16
@@ -7,6 +13,8 @@
 */
 public class Menu {
 	private Translator translator;
+
+
 
 	public Menu() {
 		translator = new Translator();
@@ -21,6 +29,8 @@ public class Menu {
 		System.out.println("3 :: translate text");
 		System.out.println("5 :: add new words to dictionary");
 		System.out.println("6 :: Speech to Text");
+		System.out.println("7 :: Translate a .txt file");
+		System.out.println("8 :: Enable/Disable text to speech");
 	}
 
 	private void clearTerminal() {
@@ -43,6 +53,7 @@ public class Menu {
 	private void selectOption() {
 		clearTerminal();
 		boolean quit = false;
+
 		while (!quit) {
 			System.out.println();
 			displayMenu();
@@ -85,7 +96,7 @@ public class Menu {
 				case 3:
 					clearTerminal();
 					System.out.println("Enter text to translate");
-					String t = translator.translateText(Genio.getString());
+					String t = translator.translateText(Genio.getString(), translator.txtToSpeech);
 					clearTerminal();
 					System.out.print(t);
 					break;
@@ -96,16 +107,34 @@ public class Menu {
 					break;
 				case 6:
 					clearTerminal();
-					String tr = translator.translateText(translator.speechToText());
+					System.out.println("**This feature only works in English **");
+					String tr = translator.translateText(translator.speechToText(), translator.txtToSpeech);
 					System.out.println(tr);
+					break;
+				case 7:
+					clearTerminal();
+					System.out.println("Please enter the path to the txt file you wish to translate:");
+					translator.txtFileTrans(Genio.getString());
+					break;
+				case 8:
+
+					System.out.println("Text to speech currently ::" + translator.txtToSpeech);
+					System.out.println("Press 't' to toggle");
+					char toggle = Genio.getCharacter();
+					if(toggle == 'T' || toggle == 't'){
+						if(translator.txtToSpeech != true) {
+							translator.txtToSpeech = true;
+						}else if(translator.txtToSpeech == true){
+							translator.txtToSpeech = false;
+						}
+					}
 					break;
 
 			}
 		}
 	}
 
-	public static void main(String[] args) {
-
+	public static void main(String[] args) throws  Exception{
 
 		new Menu();
 

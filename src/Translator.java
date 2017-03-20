@@ -11,8 +11,16 @@
 
 
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.File;
 import java.util.ArrayList;
+
 
 import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.SpeechResult;
@@ -34,8 +42,13 @@ public class Translator
 	private FileReader fileReader;
 	private BufferedReader bufferedReader;
 
+	public boolean txtToSpeech;
+
+
 	public Translator()
 	{
+		 txtToSpeech = false;
+
 		//creates 2 new arraylists, 1 for the native language,
 		//one for the translational
 		nativeLanguageList = new ArrayList<String>();	
@@ -44,6 +57,11 @@ public class Translator
 		//default languages are English to French
 		setNativeLanguage("en.txt");
 		setTranslationLanguage("fr.txt");
+
+		//Initialises Speech Synthesiser
+		voce.SpeechInterface.init("resource/voce-0.9.1/lib",true,false,"","");
+
+
 	}
 
 	public String getTranslationLanguage()
@@ -59,7 +77,7 @@ public class Translator
 		else if(translationLanguage.equals("ru.txt"))
 			return "russian";
 		else if(translationLanguage.equals("gd.txt"))
-			return "galic";
+			return "gaelic";
 		return "";
 	}
 	
@@ -76,7 +94,7 @@ public class Translator
 		else if(nativeLanguage.equals("ru.txt"))
 			return "russian";
 		else if(nativeLanguage.equals("gd.txt"))
-			return "galic";
+			return "gaelic";
 		return "";
 	}
 
@@ -107,7 +125,7 @@ public class Translator
 			try
 			{
 				nativeLanguageList.clear();
-				fileReader = new FileReader("src/" + nativeLanguage);
+				fileReader = new FileReader("resources/" + nativeLanguage);
 				bufferedReader = new BufferedReader(fileReader);
 				String nextLine = bufferedReader.readLine();
 				while(nextLine!=null)
@@ -128,7 +146,7 @@ public class Translator
 			try
 			{
 				translationLanguageList.clear();
-				fileReader = new FileReader("src/" + translationLanguage);
+				fileReader = new FileReader("resources/" + translationLanguage);
 				bufferedReader = new BufferedReader(fileReader);
 				String nextLine = bufferedReader.readLine();
 				while(nextLine!=null)
@@ -145,7 +163,7 @@ public class Translator
 	}
 	
 	//takes the inputted text and returns the translation
-	public String translateText(String text)
+	public String translateText(String text, Boolean x)
 	{
 		String parsedText[] = text.split(" ");
 		String str = "";
@@ -162,6 +180,10 @@ public class Translator
 
 			}
 			str += parsedText[i] + " ";
+		}
+
+		if(x){
+			speechSynthesiser(str);
 		}
 		return str;
 	}	
@@ -201,12 +223,14 @@ public class Translator
 
 			try{
 
-				fw = new FileWriter("src/" + nativeLanguage, true);
+				fw = new FileWriter("resources/" + nativeLanguage, true);
 				bw = new BufferedWriter(fw);
 
-				fw1 = new FileWriter("src/"+ translationLanguage, true);
+				fw1 = new FileWriter("resources/"+ translationLanguage, true);
 				bw1 = new BufferedWriter(fw1);
+				bw.newLine();
 				bw.write(unknown);
+				bw1.newLine();
 				bw1.write(translated);
 
 
@@ -256,21 +280,21 @@ public class Translator
 		InputStream stream;
 
 
-		JavaSoundRecorder sound = new JavaSoundRecorder();
-		sound.recordWav();
+		//JavaSoundRecorder sound = new JavaSoundRecorder();  // For Speech to text UNCOMMENT These 2 lines AND
+		//sound.recordWav();
 
 
 		Configuration configuration = new Configuration();
 
-		configuration.setAcousticModelPath("src/en-us");
-		configuration.setDictionaryPath("src/cmudict-en-us.dict");
-		configuration.setLanguageModelPath("src/en-us.lm.bin");
+		configuration.setAcousticModelPath("resources/en-us");
+		configuration.setDictionaryPath("resources/cmudict-en-us.dict");
+		configuration.setLanguageModelPath("resources/en-us.lm.bin");
 
 
 
 		try {
 			recognizer = new StreamSpeechRecognizer(configuration);
-			stream = new FileInputStream(new File("tran.wav"));
+			stream = new FileInputStream(new File("resources/tst.wav")); //CHANGE THIS LINE to "resources/tran.wav"
 		}catch (Exception e){
 			System.out.print("Unable to Load Speech recognition");
 			return fullTxt;
@@ -290,5 +314,90 @@ public class Translator
 
 	}
 
+	public void txtFileTrans(String filePath){
+
+		long startTime = 0;
+		long endTime = 0;
+
+		FileWriter fw = null;
+		BufferedWriter bw = null;
+
+		String translatedLine;
+
+		try{
+
+			fileReader = new FileReader(filePath);
+			bufferedReader = new BufferedReader(fileReader);
+
+			fw = new FileWriter("translated.txt");
+			bw = new BufferedWriter(fw);
+
+			String nextLine = bufferedReader.readLine();
+
+			startTime = System.nanoTime();
+
+			while(nextLine!=null)
+			{
+				translatedLine = translateText(nextLine, txtToSpeech);
+				bw.write(translatedLine);
+				bw.newLine();
+
+				System.out.println(translatedLine);
+
+				nextLine = bufferedReader.readLine();
+			}
+
+			endTime = System.nanoTime();
+			bufferedReader.close();
+
+		}catch(IOException e){
+			System.out.println("Unable to translate file :: make sure you have entered the correct path to the file.");
+			return;
+
+		}finally {
+
+			try {
+				if (bw != null) {
+					bw.close();
+				}
+				if (fw != null) {
+					fw.close();
+				}
+
+			} catch (IOException e) {
+
+				System.out.println("There was an error closing the files");
+
+			}
+		}
+
+
+		long duration = (endTime - startTime);
+
+
+		System.out.println("\n");
+		System.out.println("Translation Complete ");
+		System.out.println("Translated File in root folder");
+		System.out.println("Time Taken: " +  duration/1000000 + " Miliseconds");
+	}
+
+
+	public void speechSynthesiser(String x){
+
+		//voce.SpeechInterface.init("resource/voce-0.9.1/lib",true,false,"","");
+		voce.SpeechInterface.synthesize(x);
+
+
+
+
+	}
+
+
 
 }
+
+
+
+
+
+

@@ -10,7 +10,7 @@ public class JavaSoundRecorder {
     static final long RECORD_TIME = 10000;
 
     // path of the wav file
-    File wavFile = new File("tran.wav");
+    File wavFile = new File("resources/tran.wav");
 
     // format of audio file
     AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;

@@ -59,7 +59,7 @@ public class Translator
 		setTranslationLanguage("fr.txt");
 
 		//Initialises Speech Synthesiser
-		voce.SpeechInterface.init("resource/voce-0.9.1/lib",true,false,"","");
+
 
 
 	}
@@ -383,12 +383,7 @@ public class Translator
 
 
 	public void speechSynthesiser(String x){
-
-		//voce.SpeechInterface.init("resource/voce-0.9.1/lib",true,false,"","");
 		voce.SpeechInterface.synthesize(x);
-
-
-
 
 	}
 

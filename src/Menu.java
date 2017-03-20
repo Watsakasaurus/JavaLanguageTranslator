@@ -124,8 +124,10 @@ public class Menu {
 					if(toggle == 'T' || toggle == 't'){
 						if(translator.txtToSpeech != true) {
 							translator.txtToSpeech = true;
+							voce.SpeechInterface.init("resource/voce-0.9.1/lib",true,false,"","");
 						}else if(translator.txtToSpeech == true){
 							translator.txtToSpeech = false;
+							voce.SpeechInterface.destroy();
 						}
 					}
 					break;

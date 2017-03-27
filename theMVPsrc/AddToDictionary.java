@@ -1,7 +1,7 @@
 /**
 * AC12001 Translator Program
 * @author   Evan Lott
-* @version 1.0   160005234   25/03/2017
+* @version 1.0   25/03/2017
 * AddToDictionary class :: Provides an interface to add a word to all wordlists
 */
 
@@ -20,7 +20,6 @@ import javax.swing.JLabel;
 
 public class AddToDictionary
 {
-	//Initalises GUI references
     private JButton button;
 	private JTextArea[] inputArea;
 	private JTextArea messageBox;
@@ -28,10 +27,15 @@ public class AddToDictionary
 	private Color bgColour = new Color(47,52,63);
 	private Translator translator;
 	
+	/**
+     * Constructor: Initalises all fields to default value and sets up and displays the GUI
+	*/
 	public AddToDictionary()
 	{
+		//Creates a new translator to use
 		translator = new Translator();
 
+		//Initalises all new Text Areas to be blank
 		inputArea = new JTextArea[7];
 		inputArea[0] = new JTextArea("");
 		inputArea[1] = new JTextArea("");
@@ -46,39 +50,36 @@ public class AddToDictionary
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.setBackground(bgColour);
 
-		//Create a panel and add components to it.
+		//Create a panel with components
         JPanel contentPane = getContentPane(); 
 		contentPane.setBackground(bgColour);
         
-        // Create and set up the content pane.
         frame.setContentPane(contentPane); 
+        frame.setMinimumSize(new Dimension(350,250));
         
-        // Display the window, setting the size
-		frame.setMinimumSize(new Dimension(350,250));
-        frame.setVisible(true);
+		//Display the window
+		frame.setVisible(true);
 	}
-
-	public static void main(String[] args)
-	{
-		//Schedule a job for the event-dispatching thread:
-		//creating and showing this application's GUI.
-		javax.swing.SwingUtilities.invokeLater(new Runnable() 
-		{
-			public void run() 
-			{
-				new Interface();
-			}
-		});
-    }
-
+	
+	/**
+     * getContentPane: Creates the content pane and adds items to it 
+	 * @return JPanel - the panel with the elements added to them
+	*/
 	private JPanel getContentPane()
 	{
 		JPanel contentPane = new JPanel(new SpringLayout());
+
         String[] labelString = {"english","french", "spanish","russian","italian","gaelic","german"};
         String[] fileString  = {"en.txt","fr.txt", "es.txt","ru.txt","it.txt","gd.txt","de.txt"};
+
 		button = new JButton("Add to Dictionary");
 		button.addActionListener(new ActionListener()
 		{
+			//When the button is clicked, If any of the inputAreas are empty then
+			//the messageBox will ask to fill in all boxes. If the word is already
+			//in the english list then the messageBox will say that the word is already
+			//in the list. If the word can be added then each individual languages Word
+			//will be written to their own wordlist
 			public void actionPerformed(ActionEvent e)
 			{
 				translator.loadLanguage(true);
@@ -112,11 +113,15 @@ public class AddToDictionary
 		});
 		button.setBackground(Color.white);
 		contentPane.add(button);
-
+		
+		//Creates and adds the messageBox
 		messageBox = new JTextArea();
 		messageBox.setEditable(false);
 		messageBox.setBackground(Color.white);
 		contentPane.add(messageBox);
+		
+		//Creates 7 labels corresponding to the language inputArea Areas
+		//then adds the input areas and the labels
 		for(int i=0;i<7;i++)
 		{
 			JLabel label = new JLabel(labelString[i]+":");
@@ -126,6 +131,8 @@ public class AddToDictionary
 			inputArea[i].setLineWrap(false);
 			contentPane.add(inputArea[i]);
 		}
+
+		//Uses the SpringUtilities class to layout the elements in the desired row-column formation
 		SpringUtilities.makeCompactGrid(contentPane,8,2,1,1,20,10);
 		return contentPane;
 	}

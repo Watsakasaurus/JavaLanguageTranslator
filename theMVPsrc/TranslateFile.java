@@ -1,7 +1,7 @@
 /**
 * AC12001 Translator Program
 * @author   Evan Lott
-* @version 1.0   160005234   26/03/2017
+* @version 1.0   26/03/2017
 * TranslateFile class :: Provides an interface to translate an entire file into another language
 */
 
@@ -22,15 +22,16 @@ import javax.swing.JLabel;
 
 public class TranslateFile 
 {
-	//Initalises GUI references
     private JButton translateButton;
     private JTextArea tlTextField;
 	private JTextArea inputArea;
 	private String fileName;
 	private Translator translator;
-
 	private Color bgColour = new Color(47,52,63);
 	
+	/**
+     * Constructor: Creates the GUI elements and populates them
+     */
 	public TranslateFile()
 	{
 		translator = new Translator();
@@ -53,31 +54,20 @@ public class TranslateFile
         
         // Display the window, setting the size
 		frame.setMinimumSize(new Dimension(500,700));
-        
         frame.setVisible(true);
 	}
 
-    public static void main(String[] args) 
-    {
-        //Schedule a job for the event-dispatching thread:
-        //creating and showing this application's GUI.
-        javax.swing.SwingUtilities.invokeLater(new Runnable() 
-            {
-                public void run() 
-                {
-					new Interface();
-                }
-            });
-    }
-	
-	//Creates the native language pane
+	/**
+     * createTRPane: Creates the pane for the translation area
+	 * @return Container: the panel containing the TextField with scrollbar
+     */
     private Container createTRPane() 
     {
         JPanel panel = new JPanel();
 		panel.setBackground(bgColour);
 
-        //Create a text field, change the font and add to the panel
-        tlTextField = new JTextArea(41,40);
+        //Create a text field and scrollbar
+		tlTextField = new JTextArea(41,40);
 		JScrollPane scroll = new JScrollPane(tlTextField);
 		tlTextField.setEditable(false);
 		tlTextField.setLineWrap(true);
@@ -88,7 +78,10 @@ public class TranslateFile
         return panel;
     }
 
-    //Creates the contentpane containing the translateButton and drop down menus
+    /**
+     * createContentPaneButtons: Creates the contentpane containing the translateButton and drop down menus
+	 * @return Container: the panel containing the contentPane elements
+	 */
     private Container createContentPaneButtons()
     {
         JPanel panel = new JPanel();

@@ -1,7 +1,7 @@
 /**
 * AC12001 Translator Program
 * @author   Evan Lott
-* @version 1.0   160005234   25/03/2017
+* @version 1.0   25/03/2017
 * DisplayWordList class :: Provides an interface to display an entire wordlist
 */
 
@@ -21,12 +21,13 @@ import javax.swing.JLabel;
 
 public class DisplayWordList 
 {
-	//Initalises GUI references
     private JTextArea displayArea;
 	private Translator translator;
-
 	private Color bgColour = new Color(47,52,63);
 	
+    /**
+     * Constructor: sets default values for fields and displays the GUI
+	 */
 	public DisplayWordList()
 	{
 		translator = new Translator();
@@ -36,36 +37,26 @@ public class DisplayWordList
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.setBackground(bgColour);
 
-		//Create a panel and add components to it.
+		//Create a panel
         JPanel contentPane = new JPanel(new BorderLayout());
 		contentPane.setBackground(bgColour);
 		
+		//Fill the panel
         contentPane.add(createContentPaneButtons(), BorderLayout.NORTH);
         contentPane.add(createDisplayPane(), BorderLayout.CENTER);
         
-        // Create and set up the content pane.
+		
         frame.setContentPane(contentPane); 
-        
-        // Display the window, setting the size
 		frame.setMinimumSize(new Dimension(500,700));
         
+		//Set the window to visible
         frame.setVisible(true);
 	}
 
-    public static void main(String[] args) 
-    {
-        //Schedule a job for the event-dispatching thread:
-        //creating and showing this application's GUI.
-        javax.swing.SwingUtilities.invokeLater(new Runnable() 
-            {
-                public void run() 
-                {
-					new Interface();
-                }
-            });
-    }
-	
-	//Creates the native language pane
+	/**
+     * createDisplayPane: Creates the displayArea
+	 * @return Container: the panel with the displayArea added to it
+	 */
     private Container createDisplayPane() 
     {
         JPanel panel = new JPanel();
@@ -83,21 +74,24 @@ public class DisplayWordList
         return panel;
     }
 
-    //Creates the contentpane containing the translateButton and drop down menus
-    private Container createContentPaneButtons()
+	/**
+     * createContentPaneButtons: Creates the contentpane containing the Combobox and label 
+	 * @return Container: the panel with the elements added to it
+	 */
+	private Container createContentPaneButtons()
     {
         JPanel panel = new JPanel();
-		panel.setBackground(bgColour);
 
-		//Create the drop-down language selectors
-        String[] choice = {"english","french", "spanish","russian","italian","gaelic","german"};
+		//Create the drop-down language selector
+		String[] choice = {"english","french", "spanish","russian","italian","gaelic","german"};
         String[] file  = {"en.txt","fr.txt", "es.txt","ru.txt","it.txt","gd.txt","de.txt"};
-
         final JComboBox<String> dictionaryChoice = new JComboBox<String>(choice);
 		dictionaryChoice.setSelectedIndex(0);
         dictionaryChoice.setVisible(true);
 		dictionaryChoice.addActionListener(new ActionListener()
 		{
+			//If a selection is made, clear the text area and add all the chosen
+			//dictionary to it
 			public void actionPerformed(ActionEvent e)
 			{
 				displayArea.setText("");
@@ -111,7 +105,7 @@ public class DisplayWordList
 		});
 		dictionaryChoice.setBackground(Color.white);
 		
-		//Create the filename input box	
+		//Create label	
 		JLabel label = new JLabel("Dictionary:");
 		label.setForeground(Color.white);
 		label.setVisible(true);

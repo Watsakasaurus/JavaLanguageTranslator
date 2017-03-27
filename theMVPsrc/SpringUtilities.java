@@ -1,4 +1,8 @@
 /*
+ * Note to marker, this is some code I found in order to control the SpringLayout rows and colomns
+ * This is not my own work (obviously).
+ * Evan Lott
+ *
  * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

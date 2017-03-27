@@ -1,7 +1,7 @@
 /**
 * AC12001 Translator Program
 * @author   Evan Lott
-* @version 1.0   160005234   25/03/2017
+* @version 1.0   25/03/2017
 * DeleteWord class :: Provides an interface to delete a word and it's translations
 */
 
@@ -21,74 +21,67 @@ import javax.swing.JLabel;
 
 public class DeleteWord 
 {
-	//Initalises GUI references
 	private Translator translator;
-	String languageFile;
-	String languageName;
-	int chosenLan;
-
-
+	private String languageFile;
+	private String languageName;
+	private int chosenLan;
 	private Color bgColour = new Color(47,52,63);
 	
+	/**
+     * Constructor: Initialises the global fields and sets up and displays the GUI
+	 * @return Container: the panel with the elements added to it
+	 */
 	public DeleteWord()
 	{
+		//Creates a new Translator object
 		translator = new Translator();
+
+		//Sets fields to default values
 		chosenLan = 0;
 		languageFile = "en.txt";
 		languageName = "english";
 		
-        // Create and set up the window.
+        //Create and set up the window.
         JFrame frame = new JFrame("Delete a Word");
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.setBackground(bgColour);
 
-		//Create a panel and add components to it.
+		//Create a panel 
         JPanel contentPane = new JPanel(new FlowLayout());
 		contentPane.setBackground(bgColour);
 		
+		//Add all content to the pane
         contentPane.add(createContent());
         
-        // Create and set up the content pane.
         frame.setContentPane(contentPane); 
-        
-        // Display the window, setting the size
 		frame.setMinimumSize(new Dimension(800,70));
-        
+
+		//Show the frame
         frame.setVisible(true);
 	}
 
-    public static void main(String[] args) 
-    {
-        //Schedule a job for the event-dispatching thread:
-        //creating and showing this application's GUI.
-        javax.swing.SwingUtilities.invokeLater(new Runnable() 
-            {
-                public void run() 
-                {
-					new Interface();
-                }
-            });
-    }
-	
-
+	/**
+     * createContent: creates all the labels, buttons, etc and adds them to a panel
+	 * @return : Container - the panel with all the elements added
+	*/
     private Container createContent()
     {
 		JPanel panel = new JPanel();
-		panel.setBackground(bgColour);
-		
+	
+		//Create a label for the inputArea
 		JLabel iaLabel = new JLabel("Word to delete (will delete translations too):");
 		iaLabel.setForeground(Color.white);
 		iaLabel.setVisible(true);
 
-
+		//Set up the inputArea
 		JTextArea inputArea = new JTextArea(1,10);
 		inputArea.setLineWrap(false);
 		inputArea.setBackground(Color.white);
-
+		
+		//Create the label for the ComboBox
 		JLabel cbLabel = new JLabel("Language of word:");
 		cbLabel.setForeground(Color.white);
 		cbLabel.setVisible(true);
-
 
 		//Create the drop-down language selectors
         String[] choice = {"english","french", "spanish","russian","italian","gaelic","german"};
@@ -98,6 +91,9 @@ public class DeleteWord
         language.setVisible(true);
 		language.addActionListener(new ActionListener()
 		{
+			//If the ComboBox is pressed then the chosenLan is changed
+			//to the number corresponding to the press. The languageFile and
+			//languageName are set to the correct language Strings.
 			public void actionPerformed(ActionEvent e)
 			{
 				inputArea.setText("");
@@ -108,10 +104,14 @@ public class DeleteWord
 		});
 		language.setBackground(Color.white);
 
+		//Create the delete button
 		JButton button = new JButton("delete");
 		button.setVisible(true);
 		button.addActionListener(new ActionListener()
 		{
+			//If the inputArea is empty do nothing, if the return of the 
+			//delete method is -1 do nothing. Delete the corresponding lineSeparator
+			//on all other text files
 			public void actionPerformed(ActionEvent e)
 			{	
 				String y = inputArea.getText();
@@ -133,7 +133,7 @@ public class DeleteWord
 		});
 		button.setBackground(Color.white);
 
-		//Create the filename input box	
+		//Add all the elements to the panel
 		panel.add(cbLabel);
 		panel.add(language);
 		panel.add(iaLabel);

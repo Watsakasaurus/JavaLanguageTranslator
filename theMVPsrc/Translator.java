@@ -2,11 +2,10 @@
 * AC12001 Translator Program
 * @author   Evan Lott   
 * @author Joe Riemersma
-* @version v1.0   160005234   07/03/16
+* @version v1.0   07/03/16
 * Translator class :: Handles translation by pulling wordlists into ArrayLists
 */
 
-//Import the neccesary libraries
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.BufferedReader;
@@ -26,7 +25,7 @@ public class Translator
 	private ArrayList<String> translationLanguageList;
 
 	//Initalises a HashMap to store translated words so the dictionary files dont have 
-	//to be searched twice
+	//to be searched twice for words already translated
 	private HashMap<String,String> translationMade;
 
 	//Initalises fields
@@ -41,6 +40,9 @@ public class Translator
 	private FileReader fileReader;
 	private BufferedReader bufferedReader;
 
+	/**
+    * Constructor: Initalises the default values for the fields
+	*/
 	public Translator()
 	{
 		//Creates 2 new arraylists, 1 for the native language,
@@ -56,17 +58,32 @@ public class Translator
 		upperCase = true;
 	}
 
+	/**
+    * getTranslationLanguage: returns the transational language String
+	* @return translationLanguage
+	*/
 	public String getTranslationLanguage()
 	{
 		return translationLanguage;
 	}
 	
+	/**
+    * getNativeLanguage: returns the native language String
+	* @return nativeLanguage
+	*/ 
 	public String getNativeLanguage()
 	{
 		return nativeLanguage;
 	}
 
-	//Sets the transational language to a new language
+	//
+	
+	/**
+    * setTranslationLanguage: Sets the transational language to a new language then loads the language from 
+	* the file to the arraylist
+	* @param translationLanguage : What the new translationLanguage String will be set to
+	* @param translationLanguageFile : What the new translationLanguageFile String will be set to
+	*/ 
 	public void setTranslationLanguage(String translationLanguage,String translationLanguageFile)
 	{
 		this.translationLanguage = translationLanguage;	
@@ -74,6 +91,12 @@ public class Translator
 		loadLanguage(false);
 	}
 
+	/**
+    * setNativeLanguage: Sets the native language to a new language then loads the language from
+	* the file to the arrayList
+	* @param nativeLanguage : What the new nativeLanguage String will be set to
+	* @param nativeLanguageFile : What the new nativeLanguageFile String will be set to
+	*/ 
 	public void setNativeLanguage(String nativeLanguage,String nativeLanguageFile)
 	{
 		this.nativeLanguage = nativeLanguage;	
@@ -81,7 +104,10 @@ public class Translator
 		loadLanguage(true);
 	}
 
-	//Loads language
+	/**
+    * loadLanguage: loads the language from the .txt file
+	* @param x : If x is true, the native language will be loaded, else the translation language
+	*/ 
 	public void loadLanguage(boolean x)
 	{
 		//If x is true load the new native language into the cleared ArrayList
@@ -123,20 +149,42 @@ public class Translator
 		}
 	}
 	
-	//takes the inputted text and returns the translation
-	public String translateText(String text,boolean emptyHashTable)
+	/**
+    * translateText: translates the inputted
+	* @param text : the text to be translated
+	* @param emptyHashMap : If true then the HashMap will be cleared
+	* @return : returns the translated String
+	*/ 
+	public String translateText(String text,boolean emptyHashMap)
 	{
+		//By default upperCase is true because the text will start with a Capital letter
 		upperCase = true;
-		if(emptyHashTable)
+
+		//emptys the HashMap if true
+		if(emptyHashMap)
 			translationMade.clear();
+		//Splits the text by tab or whitespace
 		String parsedText[] = text.split("\\s");
+
+		//Ensures that if the translation field has just been cleared the translationMade is cleared
+		//and the translation of empty (always empty also) is returned
 		if(parsedText[0].equals(""))
 		{
 			translationMade.clear();
 			return "";
 		}
+		
+		//Creates new empty strings
 		String tow = "";
 		String str = "";
+
+		//Runs through each word in the array list.
+		//If the hashtable already contains the translation then the corresponding translation
+		//is used
+		//If not then the translation is compared against the wordlist
+		//The wordlist is all lower case, and the inputted text is sorted so that each character is lower case
+		//and punctuation marks are removed and added back after translation
+		//The str String is concatenated with all the translations so that a single translated String can be returned
 		for(int i=0;i<parsedText.length;i++)
 		{
 			String sortedText = punctuationSorter((parsedText[i]));
@@ -178,14 +226,17 @@ public class Translator
 			punctuationMark.equals("! ")||
 			punctuationMark.equals("? "))
 				upperCase = true;
+
+			//The translated word has its punctuationMark added back to the end
 			tow += punctuationMark;	
 			str += tow;
 		}
-
 		return str;
 	}	
 
-	//Switches the 2 language options round
+	/**
+    * switchLanguages: Switches the 2 language options round
+	*/ 
 	public void switchLanguages()
 	{
 		String x = nativeLanguage;
@@ -196,7 +247,11 @@ public class Translator
 		loadLanguage(false);
 	}
 
-		//adds unknown word and users entry to corresponding dictionaries
+	/**
+    * addToDictionary: adds unknown word and users entry to corresponding dictionaries
+	* @param content : the word to be added
+	* @param filename : the name of the txt file the word is being added to
+	*/ 
 	public void addToDictionary(String content,String filename)
 	{
 		BufferedWriter bw = null;
@@ -225,7 +280,12 @@ public class Translator
 			{}
 		}
 	}
-		
+	
+	/**
+    * txtFileTrans: translates a text file and returns the translation and statistics
+	* @param filename : the name of the txt file to be translated
+	* @return : the String of the translated file
+	*/ 
 	public String txtFileTrans(String fileName)
 	{
 		long startTime = 0;
@@ -281,7 +341,12 @@ public class Translator
 		str += "Time Taken: " +  duration + " ms";
 		return str;
 	}
-
+	
+	/**
+    * isInList: checks if a String is in the native array list
+	* @param x : the string to check the ArrayList for
+	* @return : true if the word is in the array list, false if not
+	*/ 
 	public boolean isInList(String x)
 	{
 		for(int i=0;i<nativeLanguageList.size();i++)
@@ -292,17 +357,30 @@ public class Translator
 		return false;
 	}
 
+	/**
+    * getNativeSize: returns the size of the nativeLanguageList
+	* @return : returns the size
+	*/ 
 	public int getNativeListSize()
 	{
 		return nativeLanguageList.size();
 	}
 
+	/**
+    * getNativeListRow: returns the String corresponding to the index i
+	* @return : the String word at the index i
+	* @param i : the index desired
+	*/ 
 	public String getNativeListRow(int i)
 	{
 		return nativeLanguageList.get(i);
 	}
 
-	//Sorts punctuation
+	/**
+    * punctuationSorter: sorts punctuation
+	* @return : The sorted String (no punctuation or capitalization)
+	* @param s : The String to be sorted
+	*/ 
 	public String punctuationSorter(String s)
 	{
 		String p = "";
@@ -353,48 +431,59 @@ public class Translator
 		return p;
     }
 
+	/**
+    * deleteLineFromDictionary: deletes a line from a given dictionary
+	* @return : the number of the line deleted
+	* @param fileName : The file to delete from
+	* @param word : the word to delete
+	* @param x : the line to delete (if word = "")
+	*/ 
 	public int deleteLineFromDictionary(String fileName,String word,int x)
     {
 		int lineNumber = -1;
 		try
 		{
-			File realFile = new File(fileName);
+			File file = new File(fileName);
 			File tempFile = new File(fileName.concat("temp"));
-			BufferedReader reader = new BufferedReader(new FileReader(realFile));
-			BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
-			String currentLine;
+			BufferedReader r = new BufferedReader(new FileReader(file));
+			BufferedWriter w = new BufferedWriter(new FileWriter(tempFile));
+			String line;
 			int counter = 0;
 			if(!word.equals(""))
-				while((currentLine = reader.readLine()) != null)
+				while((line = r.readLine()) != null)
 				{
 					counter++;
-            		if(null!=currentLine && !currentLine.equalsIgnoreCase(word))
+            		if(null!=line && !line.equalsIgnoreCase(word))
 					{
-               			writer.write(currentLine + System.getProperty("line.separator"));
+               			w.write(line + System.getProperty("line.separator"));
             		}
 					else
 						lineNumber = counter;
         		}
 			else
-				while((currentLine = reader.readLine()) != null)
+				while((line = r.readLine()) != null)
 				{
 					counter++;
             		if(x!=counter)
 					{
-               			writer.write(currentLine + System.getProperty("line.separator"));
+               			w.write(line + System.getProperty("line.separator"));
             		}
         		}
 
-        	writer.close();
-        	reader.close();
-        	tempFile.renameTo(realFile);
+        	w.close();
+        	r.close();
+        	tempFile.renameTo(file);
 		}
 		catch(IOException e)
 		{}
 		return lineNumber;
     }
 	
-	//Returns x with the first char uppercase
+	/**
+    * makeSentenceStarter: Returns x with the first char uppercase
+	* @return : the String of x but with the first letter capitalized
+	* @param x : the String to have the first letter capitalized
+	*/ 
 	private String makeSentenceStarter(String x)
 	{
 		String y = "";

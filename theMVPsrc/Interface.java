@@ -2,7 +2,7 @@
 * AC12001 Translator Program
 * @author Evan Lott
 * @author Calum Watson 
-* @version 1.1   160005234   23/03/2017
+* @version 1.1   23/03/2017
 * GUI class :: Provides user interface with the translator
 */
 
@@ -31,46 +31,50 @@ import javax.swing.text.Document;
 
 public class Interface 
 {
-	//Initalises GUI references
     private JButton translateButton;
     private JTextArea nlTextField, tlTextField;
 	private JCheckBox autoTranslateBox;
 	private boolean autoTranslate;
 	
+	//Initialises a new translator
 	private Translator translator;
-
 	private Color bgColour = new Color(47,52,63);
 	
+	/**
+     * Constructor: Creates the GUI elements and populates them
+     */
 	public Interface()
 	{
+		//Sets default global variables
 		autoTranslate = true;
 		translator = new Translator();
-        // Create and set up the window.
+
+        //Create and set up the window.
         JFrame frame = new JFrame("GO-GO-GADGET TRANSLATOR");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBackground(bgColour);
+
 		//Create a panel and add components to it.
         JPanel contentPane = new JPanel(new BorderLayout());
 		contentPane.setBackground(bgColour);
-		
         contentPane.add(createContentPaneButtons(), BorderLayout.NORTH);
         contentPane.add(createTRPane(), BorderLayout.EAST);
         contentPane.add(createNLPane(), BorderLayout.WEST);
         
-        // Create and set up the content pane.
+        //Add menuBar and pane to the frame
         frame.setJMenuBar(createMenuBar());
         frame.setContentPane(contentPane); 
         
         // Display the window, setting the size
 		frame.setMinimumSize(new Dimension(750,700));
-        
         frame.setVisible(true);
 	}
 
+	/**
+     * main: creates and shows the interface 
+     */
     public static void main(String[] args) 
     {
-        //Schedule a job for the event-dispatching thread:
-        //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() 
             {
                 public void run() 
@@ -79,7 +83,11 @@ public class Interface
                 }
             });
     }
-    //Create the Menu
+
+	/**
+     * Creates a menuBar
+	 * @return JMenuBar: the populated menu bar
+     */
     private JMenuBar createMenuBar() 
     {
         JMenuBar menuBar  = new JMenuBar();
@@ -142,12 +150,12 @@ public class Interface
         return menuBar;
     }
 
-	//Creates the native language pane
+	/**
+     * Creates the text area to input text to translate into
+	 * @return Container: A panel containing the formatted JTextArea with DocumentListener
+     */
 	private Container createNLPane()
 	{
-        /* Create a panel to add components into 
-         * Look up layouts to see how to plce items in a nicer way
-         */
         JPanel panel = new JPanel();
 		panel.setBackground(bgColour);
 
@@ -177,14 +185,17 @@ public class Interface
         return panel;
     }
 	
-	//Creates the native language pane
+	/**
+     * Creates the text area to input translated text
+	 * @return Container: A panel containing the formatted JTextArea with DocumentListener
+     */
     private Container createTRPane() 
     {
         JPanel panel = new JPanel();
 		panel.setBackground(bgColour);
 
-        //Create a text field, change the font and add to the panel
-        tlTextField = new JTextArea(40,30);
+        //Create a text field
+		tlTextField = new JTextArea(40,30);
 		tlTextField.setEditable(false);
 		tlTextField.setLineWrap(true);
 		tlTextField.setWrapStyleWord(true);
@@ -193,13 +204,15 @@ public class Interface
         return panel;
     }
 
-    //Creates the contentpane containing the translateButton and drop down menus
+	/**
+     * Creates the buttons for interacting with the interface
+	 * @return Container: A panel containing all the formatted buttons, labels etc.
+	 */ 
     private Container createContentPaneButtons()
     {
         JPanel panel = new JPanel();
 		panel.setBackground(bgColour);
 
-		
 		//Create the checkbox
 		autoTranslateBox = new JCheckBox("auto-translate:");
     	autoTranslateBox.setMnemonic(KeyEvent.VK_C);
@@ -224,9 +237,9 @@ public class Interface
 		});
 		translateButton.setBackground(Color.white);
 
+		//Create the ComboBox
         String[] choices = {"english","french", "spanish","russian","italian","gaelic","german"};
         String[] file  = {"en.txt","fr.txt", "es.txt","ru.txt","it.txt","gd.txt","de.txt"};
-
         final JComboBox<String> nlChoice = new JComboBox<String>(choices);
 		nlChoice.setSelectedIndex(0);
         nlChoice.setVisible(true);
@@ -240,7 +253,7 @@ public class Interface
 		});
 		nlChoice.setBackground(Color.white);
 
-        
+		//Create another ComboBox
         final JComboBox<String> tlChoice = new JComboBox<String>(choices);
 		tlChoice.setSelectedIndex(1);
         tlChoice.setVisible(true);
@@ -254,13 +267,12 @@ public class Interface
 			} 
 		});
 		tlChoice.setBackground(Color.white);
-
+		
+		//Add all the components to the panel
         panel.add(nlChoice);
 		panel.add(autoTranslateBox);
         panel.add(translateButton);
         panel.add(tlChoice);
         return panel;
     }
-    
-    
 }

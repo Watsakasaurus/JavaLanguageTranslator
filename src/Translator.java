@@ -280,8 +280,8 @@ public class Translator
 		InputStream stream;
 
 
-		//JavaSoundRecorder sound = new JavaSoundRecorder();  // For Speech to text UNCOMMENT These 2 lines AND
-		//sound.recordWav();
+		JavaSoundRecorder sound = new JavaSoundRecorder();  // For Speech to text UNCOMMENT These 2 lines AND
+		sound.recordWav();
 
 
 		Configuration configuration = new Configuration();
@@ -294,7 +294,7 @@ public class Translator
 
 		try {
 			recognizer = new StreamSpeechRecognizer(configuration);
-			stream = new FileInputStream(new File("resources/tst.wav")); //CHANGE THIS LINE to "resources/tran.wav"
+			stream = new FileInputStream(new File("resources/tran.wav")); //CHANGE THIS LINE to "resources/tran.wav"
 		}catch (Exception e){
 			System.out.print("Unable to Load Speech recognition");
 			return fullTxt;

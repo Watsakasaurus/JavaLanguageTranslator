@@ -166,7 +166,7 @@ public class Translator
 		if(emptyHashMap)
 			translationMade.clear();
 		//Splits the text by tab or whitespace
-		String parsedText[] = text.split("\\s");
+		String parsedText[] = text.split("\\s+");
 
 		//Ensures that if the translation field has just been cleared the translationMade is cleared
 		//and the translation of empty (always empty also) is returned
